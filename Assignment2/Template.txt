@@ -1,0 +1,7 @@
+set 0, read;
+jumpt 4, D[0] != 0;
+set 0, 1;
+halt;
+jumpt 7, D[0] != 1;
+set 0, 2;
+halt;
