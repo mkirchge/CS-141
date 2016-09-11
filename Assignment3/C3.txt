@@ -1,0 +1,25 @@
+set 0, 5;              #Frame Pointer (current)
+set 1, 6;              #Stack Pointer (free)
+#main()
+set 2, read;           #reads global, then we do ROUTINE CALL
+set D[1]-2, 23;        #set value of return point in callee's activation record
+set D[1]+2, D[0];      #set dynamic link
+set 0, D[1];           #set CURRENT
+set 1, D[1]+5;         #set FREE (size of activation record (c3) is 5)
+#c3()
+set 2, D[2]-1;         #global = global-1
+jumpt 13, D[2]+1 != 1; #if (n == 1)
+set D[0]-1, 1;         #return 1;
+jump 20;               #jump to return from routine
+set D[1]-2, 18;        #set value of return point in callee's activation record
+set D[1]+1, D[0];      #set dynamic link
+set 0, D[1];           #set CURRENT
+set 1, D[1]+5;         #set FREE (size of activation record (c3) is 5)
+jump 9;
+set D[0]-1, 2*D[D[1]-1] + 1;#return 2*c3()+1; D[1]-1 contains result of call to c3
+#RETURN FROM ROUTINE
+set 1, D[0];           #set FREE
+set 0, D[D[1]+1];      #set CURRENT
+jump D[D[1]-2];        #jump to stored return point
+set write, D[D[1]-1];  #D[1]-1 is address where result of call to c3 is stored
+halt;

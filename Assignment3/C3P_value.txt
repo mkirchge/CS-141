@@ -1,0 +1,28 @@
+set 0, 5;           #Frame Pointer (current)
+set 1, 8;           #Stack Pointer (free)
+#main()
+set 2, read;        #get(n)
+set 1, D[1]+5;      #size of activation record is 5
+set D[1]-2, 10;     #set value of return pointer in callee's AR
+set D[1]+2, D[0];   #set dynamic link
+set 0, D[1];        #set CURRENT
+set 1, D[1]+5;      #set FREE
+set D[2], D[2]-2;   #n = n-2
+#fib()
+set D[0]+2, 0;      #int local
+jumpt 13, D[2]>2;   #if (n<=2)
+set D[0]-1, 1;      #return 1
+set 0, D[1];
+set 1, D[1]+5;      #size of activation record is 5
+set 1, D[0];        #set FREE
+set 0, D[D[1]+1];   #set CURRENT
+jump 21;            #jump to return from routine
+set D[1]-2, 11;     #set value of return pointer in callee's AR
+set D[1]+1, D[0];   #set dynamic link
+set 0, D[1];        #set CURRENT
+set 1, D[1]+5;      #set FREE
+set D[2], D[2]-2;   #n = n-2
+jump 9;
+set D[0]+2, D[D[1]-1]; #local = fib(n-2)
+set D[0]-1, D[D[1]-1] + (D[0]+2); #return fib(n-1) + local
+halt;

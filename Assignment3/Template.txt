@@ -1,0 +1,23 @@
+This template is called SWITCH and shows the syntax I am describing
+—- SWITCH —-
+switch (MY_VAR)
+   CASE COND
+      CASE_BLOCK
+      END_SWITCH
+   DEFAULT
+      END_SWITCH
+—- END SWITCH —-
+
+
+
+This is how my template translates to SIMPLESEM
+—- SWITCH —-
+            > set 0, read
+            > CASE | DEFAULT | epsilon
+CASE        > jumpt DEFAULT, D[0] != COND
+            > CASE_BLOCK
+            > jump CASE | DEFAULT | END_SWITCH
+DEFAULT     > DEFAULT_BLOCK
+            > jump END_SWITCH
+END_SWITCH  >
+—- END SWITCH —-

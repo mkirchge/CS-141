@@ -1,0 +1,11 @@
+set 0, 0;            #int n = 0
+set 1, 0;            #int m = 0
+#gcd()
+jumpt 9, D[0]==D[1]; #while(m!=n)
+jumpt 6, D[0]<=D[1]; #if n>m
+set 0, D[0]-D[1];    #n = n-m
+set 1, D[1]-D[0];    #m = m-n
+jump 3;              #jump back to top of while loop
+#main()
+set write, D[0];     #print(n)
+halt;

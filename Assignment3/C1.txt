@@ -1,0 +1,14 @@
+set 0, 3;             #reads a
+set 1, 1;             #reads b
+set 2, 0-1;           #reads c
+jumpt 10, D[0]<=D[2]; #while(a>c)
+jumpt 7, D[0]!=0;     #if(a==0)
+set write, D[1];      #print(b)
+jump 8;
+set 1, D[1]+D[0];     #b = b+a
+set 0, D[0]-1;        #a = a-1
+jump 3;
+set write, D[0];      #print(a)
+set write, D[1];      #print(b)
+set write, D[2];      #print(c)
+halt;

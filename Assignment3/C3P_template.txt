@@ -1,0 +1,65 @@
+#Template call/return sequence for Fibonacci
+
+Syntax I am describing:
+
+int n;
+int fib(int n) {
+   int local;
+   if (n <= 2) 
+      return 1;
+   else {
+      local = fib(n-2);
+      return fib(n-1) + local;
+   }
+}
+main() {
+   get(n);
+   fib(n); 
+}
+
+
+Template for pass-by-value
+- A function with pass by value receives the actual value of the variable
+
+—- FIB —-
+FIB	    > set LOCAL, 0
+IF	    > jumpt ELSE, D[2] > 2
+	    > IF_BLOCK
+	    > jump END_IF
+ELSE       > set LOCAL, FIB(D[2]-2)
+           > set D[0]-1, FIB(D[2]-1) + LOCAL
+	    > jump IF
+END_IF     > END_FIB
+END_FIB    >
+—- END_FIB —-
+
+
+—- MAIN —-
+	    > set 2, read
+	    > FIB
+—- END_MAIN —-
+
+
+
+Template for pass-by-reference
+- A function with pass by reference receives a pointer that points to the value of the variable 
+
+—- FIB —-
+FIB	    > set LOCAL, 0
+	    > jumpt ELSE, TEMP > 2
+	    > IF_BLOCK
+	    > jump END_IF
+ELSE       > set TEMP, D[2]-2
+	    > set LOCAL, FIB(TEMP)
+	    > set TEMP, D[2]-1
+	    > set D[0]-1, FIB(TEMP) + LOCAL
+	    > jump FIB
+END_IF     > END_FIB
+END_FIB    >
+—- END_FIB —-
+
+
+—- MAIN —-
+	    > set 2, read
+	    > FIB
+—- END_MAIN —-
