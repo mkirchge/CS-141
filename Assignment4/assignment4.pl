@@ -1,0 +1,65 @@
+% Maximillian Kirchgesner (ID: 27238431)
+% CS 141 1x1 Assignment 4
+
+% Question 1
+% Knowledge-base
+nonStopTrain(sandiego,oceanside).
+nonStopTrain(lasvegas,sandiego).
+nonStopTrain(sanfrancisco,bakersfield).
+nonStopTrain(bakersfield,sandiego).
+nonStopTrain(oceanside,losangeles).
+nonStopTrain(portland,sanfrancisco).
+nonStopTrain(seattle,portland).
+nonStopTrain(oceanside,seattle).
+
+%Rules
+routeTrip(Start, Destination, [Start,Destination]):- nonStopTrain(Start, Destination),!.
+routeTrip(Start, Destination, [Start|Trip]):-
+	nonStopTrain(Start,Between),
+	routeTrip(Between,Destination,Trip).
+
+canTravel(Start,Destination):- routeTrip(Start,Destination,_), routeTrip(Destination,Start,_).
+
+% Question 2
+% Knowledge-base
+gender(sue,f).
+gender(jim,m).
+gender(tom,m).
+gender(joe,m).
+gender(cami,f).
+gender(bob,m).
+gender(fay,f).
+gender(beth,f).
+hobby(sue,yoga).
+hobby(sue,chess).
+hobby(jim,chess).
+hobby(tom,run).
+hobby(tom,yoga).
+hobby(joe,chess).
+hobby(joe,run).
+hobby(cami,yoga).
+hobby(cami,chess).
+hobby(cami,run).
+hobby(bob,run).
+hobby(fay,yoga).
+hobby(fay,run).
+hobby(fay,chess).
+hobby(beth,chess).
+hobby(beth,run).
+
+
+%Rules
+adjacent_gender(X,Y):- gender(X,Z), gender(Y,A), Z\=A.
+adjacent_hobby(X,Y):- hobby(X,Z), hobby(Y,A), Z==A.
+
+validneighbors(X,Y):- adjacent_gender(X,Y), adjacent_hobby(X,Y), !.
+
+canSit([A,B,C,D,E,F,G,H]):- validneighbors(A,B), validneighbors(B,C), validneighbors(C,D), validneighbors(D,E), validneighbors(E,F), validneighbors(F,G), validneighbors(G,H), validneighbors(H,A).
+
+rotatelist([H|T],R):- append(T,[H],R).
+
+names(X):- permutation([sue,jim,tom,bob,joe,cami,fay,beth],X).
+
+seatingChart(X):- names(N), canSit(N), rotatelist(N,X).
+
+
